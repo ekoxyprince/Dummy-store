@@ -1,0 +1,23 @@
+<%- include('../partials/pagehead.ejs') %>
+<section class="build__section">
+    <div class="container py_l">
+        <div class="section__title">
+            <h2 class="text-primary">Builds</h2>
+            <p>Click <a href="/store">Store</a> For Available Bike</p>
+        </div>
+        <div class="row">
+            <% products.forEach(p => { %>
+                <div class="col-md-4">
+                    <div class="content__card">
+                        <div class="blurred__img">
+                        <img id="img" src="<%= p.image %>" loading="lazy" alt="">
+                    </div>
+                        <h2><%= p.name %></h2>
+                       </div>
+                </div>
+            <% }) %>
+
+        </div>
+    </div>
+</section>
+<%- include('../partials/pagefoot.ejs') %>

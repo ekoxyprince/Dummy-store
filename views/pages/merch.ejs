@@ -1,0 +1,23 @@
+<%- include('../partials/pagehead.ejs') %>
+<section class="merch__section">
+    <div class="container py_l">
+        <div class="row">
+            <% products.forEach(p => { %>
+                <div class="col-md-3 col-sm-6">
+                    <div class="content__card">
+                        <div class="img_bg">
+                        <div class="blurred__img">
+                        <img id="img" src="<%= p.image %>" loading="lazy" alt="">
+                    </div>
+                    </div>
+                        <h2><%= p.name %></h2>
+                        <h3>$<%= Number(p.price).toFixed(2) %></h3>
+                        <button class="btn btn-dark rounded-0 py-3" id="<%= p.id %>" onclick="viewDetails(this)">View Product</button>
+                       </div>
+                </div>
+            <% }) %>
+         
+        </div>
+    </div>
+</section>
+<%- include('../partials/pagefoot.ejs') %>

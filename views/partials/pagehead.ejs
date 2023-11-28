@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMX</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" integrity="sha512-b2QcS5SsA8tZodcDtGRELiGv5SaKSk1vDHDaQRda0htPYWZ6046lr3kJ5bAAQdpV2mmA/4v0wQF9MyU6/pDIAg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js" integrity="sha512-Zq9o+E00xhhR/7vJ49mxFNJ0KQw1E1TMWkPTxrWcnpfEFDEXgUiwJHIKit93EW/XxE31HSI5GEOW06G6BF1AtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" integrity="sha512-O03ntXoVqaGUTAeAmvQ2YSzkCvclZEcPQu1eqloPaHfJ5RuNGiS4l+3duaidD801P50J28EHyonCV06CUlTSag==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <div class="nav__logo">
+            <img src="./assets/images/logo.png" alt="" srcset="">
+        </div>
+        <nav>
+            <a class="nav__link" href="/">Home</a>
+            <a class="nav__link" href="/store">Store</a>
+            <a class="nav__link" href="/merch">Merch</a>
+            <a class="nav__link" href="/build">Build</a>
+            <button id="cart-btn" class="btn btn-primary"><i class="fas fa-cart-shopping"></i></button>
+        </nav>
+    <div class="nav__icon">
+        <span id="cart-btn2" class="btn btn-primary"><i class="fas fa-shopping-cart"></i></span>
+        <span><i class="fa fa-bars" id="menu"></i></span>
+    </div>
+    </header>
+    <div class="cart__container">
+        <div class="cart__header">
+            <h2>Cart</h2>
+            <button class="btn btn-close" id="cart-close"></button>
+        </div>
+        <div class="cart__content">
+            
+            <% cart.forEach(c => { %>
+                <div class="cart__product">
+                    <div class="cart__img">
+                        <img src="<%=c.image%>" alt="">
+                    </div>
+                    <div class="cart__detail">
+                        <h6><%= c.name %></h6>
+                        <div class="input__qty">
+                            <button onclick="removeFromCart(this)" id="<%= c.id %>">-</button>
+                            <input type="text" value="<%=c.quantity%>" readonly>
+                            <button onclick="addToCart(this)" id="<%= c.id %>">+</button>
+                        </div>
+                    </div>
+                    <div class="cart__price">
+                        <h5>$<%= Number(c.price).toFixed(2) %></h5>
+                    </div>
+                </div>
+                <% }) %>
+                <% if (cart.length>0) { %>
+                <div class="cart__footer">
+                    <div class="sub__total">
+                        <h6>SubTotal</h6>
+                        <h5>$<%= Number(subtotal).toFixed(2) %></h5>
+                    </div>
+                    <p class="cart__footer__text">Shipping and discount codes are added at checkout.</p>
+                    <button class="btn btn-dark">Checkout</button>
+                </div>
+                <% } %>
+            </div>
+    </div>

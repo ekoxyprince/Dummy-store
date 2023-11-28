@@ -1,0 +1,31 @@
+<%- include('../partials/pagehead.ejs') %>
+<section class="store__section">
+    <div class="container py_l">
+        <div class="row">
+            <% products.forEach(p => { %>
+                <div class="col-md-3 col-sm-6 mt-3">
+                    <div class="content__card">
+                        <span class="tag">For sale</span>
+                        <div class="blurred__img">
+                        <img id="img" src="<%= p.image %>" loading="lazy" alt="">
+                    </div>
+                        <h2><%= p.name %></h2>
+                        <h3>$<%= Number(p.price).toFixed(2) %></h3>
+                        <button onclick="addToCart(this)" id="<%= p.id %>" class="btn btn-primary rounded-0">Add To Cart</button>
+                       </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="social__container">
+       <h2 class="text-primary"> Social Media</h2>
+       <div class="social__icons">
+         <div><span><i class="fab fa-facebook"></i></span><h4>Facebook</h4></div>
+         <div><span><i class="fab fa-instagram"></i></span><h4>Instagram</h4></div>
+         <div><span><i class="fab fa-youtube"></i></span><h4>Youtube</h4></div>
+       </div>
+    </div>
+</section>
+<%- include('../partials/pagefoot.ejs') %>

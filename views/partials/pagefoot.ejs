@@ -1,0 +1,170 @@
+<footer>
+    <div class="footer__links">
+        <div class="footer__section">
+            <h2 class="extra">About us</h2>
+            <p>Veteran owned company. We build custom BMX bikes for Instagram and YouTube.<br><br>
+
+                For collaborations or promotional builds contact: sean@radbmxbuilds.com
+                </p>
+                <img src="./assets/images/logo.png" alt="">
+        </div>
+        <div class="footer__section">
+            <h2>Pages</h2>
+            <div>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="./merch.html">Merch</a></li>
+                <li><a href="./store.html">Store</a></li>
+                <li><a href="./build.html">Builds</a></li>
+            </ul>
+        </div>
+        </div>
+        <div class="footer__section">
+            <h2>Follow Us</h2>
+            <div>
+            <ul>
+                <li><a href=""><i class="fab fa-facebook"></i><h3>Facebook</h3></a></li>
+                <li><a href=""><i class="fab fa-instagram"></i><h3>Instagram</h3></a></li>
+                <li><a href=""><i class="fab fa-youtube"></i><h3>Youtube</h3></a></li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <hr>
+    <div class="footer__text">
+        <a href="">sean@radbmxbuilds.com</a>
+        <p>© 2023 RAD BMX BUILDS</p>
+    </div>
+</footer>
+
+    <!-- Product Details Modal -->
+        <div class="modal fade bd-example-modal-lg" id="product-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h4 class="modal-title" id="myLargeModalLabel">Product Details</h4>
+                      <button type="button" id="productmodal-close" class="close btn btn-close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
+                      </button>
+                    </div>
+               <div class="modal-body">
+                  <div class="info">
+                       <div class="info__img">
+                        <img id="prod-img" src="./assets/images/store-zoo.jfif" alt="">
+                       </div>
+                       <div class="info__details">
+                         <h4 id="prod-name">Rad BMX Builds Bicycle</h4>
+                         <h3 id="prod-price">$31.25</h3>
+                         <div class="input__group">
+                         <label for="size">Size</label>
+                         <select name="size" id="size">
+                          <option value="">S</option>
+                          <option value="">M</option>
+                          <option value="">L</option>
+                          <option value="">XL</option>
+                          <option value="">2Xl</option>
+                          <option value="">3XL</option>
+                          <option value="">4Xl</option>
+                         </select>
+                         </div>
+                         <div class="input__group">
+                          <label for="size">Color</label>
+                          <select name="size" id="size">
+                           <option value="">White</option>
+                           <option value="">Black</option>
+                          </select>
+                          </div>
+                          <div class="cart__group">
+                              <input class="cart-input"  type="text" value="1" readonly>
+                              <button onclick="addToCart(this)" class="cart__btn">Add To Cart</button>
+                          </div>
+                     <div id="prod-desc">
+                         
+                       </div>
+                    </div>
+                  </div>
+               </div>
+              </div>
+            </div>
+          </div>
+
+          <script>
+           function viewDetails(btn){
+              const id = btn.getAttribute('id')
+             fetch(`/product/${id}`)
+             .then(res=>res.json())
+             .then(data=>{
+                document.getElementById('prod-name').textContent=data.body.data.product.name
+                document.getElementById('prod-price').textContent="$"+data.body.data.product.price
+                document.getElementById('prod-img').setAttribute('src',data.body.data.product.image)
+                document.getElementById('prod-desc').innerHTML =data.body.data.product.description
+                document.querySelector('.cart__btn').setAttribute('id',data.body.data.product.id)
+                let modal = new bootstrap.Modal(document.getElementById('product-modal',{}))
+        modal.show()
+        closeProductModalBtn.onclick = ()=>{
+        modal.hide()
+        }
+             })
+            }
+            document.querySelector('.cart__btn').addEventListener('click',()=>{
+                iziToast.show({
+                               message:'Added to cart',
+                               messageColor:'black',
+                               title:'Success',
+                               position:'topCenter',
+                               titleColor:'green'
+                           })
+            })
+        </script>
+        <script>
+            function addToCart(btn){
+               const id = btn.getAttribute('id')
+               $.ajax({
+                   method:'POST',
+                   data:JSON.stringify({prodId:id}),
+                   contentType:'application/json',
+                   url:'/cart',
+                   success:(data)=>{
+                       if(!data.success){
+                           iziToast.show({
+                               message:data.body.data.msg,
+                               messageColor:'orange',
+                               title:data.body.status,
+                               position:'topCenter',
+                               titleColor:'red'
+                           })
+                       }else if(data.success){
+                           $('.cart__container').addClass('show')
+                           $('.cart__content').load(' .cart__content')
+                       }
+                   }
+               })
+            }
+            function removeFromCart(btn){
+               const id = btn.getAttribute('id')
+               $.ajax({
+                   method:'PATCH',
+                   data:JSON.stringify({prodId:id}),
+                   contentType:'application/json',
+                   url:'/cart',
+                   success:(data)=>{
+                       if(!data.success){
+                           iziToast.show({
+                               message:data.body.data.msg,
+                               messageColor:'orange',
+                               title:data.body.status,
+                               position:'topCenter',
+                               titleColor:'red'
+                           })
+                       }else if(data.success){
+                           $('.cart__container').addClass('show')
+                           $('.cart__content').load(' .cart__content')
+                       }
+                   }
+               })
+            }
+           </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>

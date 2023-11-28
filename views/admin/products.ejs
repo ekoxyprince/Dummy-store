@@ -1,0 +1,106 @@
+<%-include('../partials/adminhead.ejs')%>
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+  <!-- Recent Sales Start -->
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">All Products</h6>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Add Product
+            </button>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Del</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% products.forEach(p => { %>
+                     
+                        <tr>
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td><%= new Date(p.createdAt).toDateString() %></td>
+                            <td><%= p.name %></td>
+                            <td><%= p.category %></td>
+                            <td><%= (p.description).split(0,13)+"..." %></td>
+                            <td><%= p.price %></td>
+                            <td>
+                              <form action='/admin/products?_method=DELETE' method="POST">
+                                <input type="text" name="id" value="<%= p.id %>" hidden>
+                                <button type="submit" class="btn btn-sm btn-close"></button>
+                              </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Recent Sales End -->
+
+
+<!--Modal starts-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Create New Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" id="createForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name" class="form-label">Name</label>
+            <input class="form-control" type="text" id="name" name="name">
+          </div>
+          <div class="form-group">
+            <label for="category" class="form-label">Category</label>
+            <select name="category" class="form-control" id="category">
+<option value="merch">Merch</option>
+<option value="store">Store</option>
+<option value="build">Build</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" name="file" id="file" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="price" class="form-label">Price</label>
+            <input type="number" id="price" step="0.001" name="price" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <textarea name="description" class="form-control" id="description" cols="30" rows="10"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    ClassicEditor
+            .create( document.querySelector('#description') )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+</script>
+<%-include('../partials/adminfoot.ejs')%>
