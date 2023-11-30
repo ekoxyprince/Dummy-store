@@ -29,6 +29,9 @@ router
 .patch(controller.reduceCartItem)
 
 router
+.route('/order')
+.post(controller.placeOrder)
+router
 .route('/product/:id')
 .get(controller.fetchProductDetails)
 

@@ -5,6 +5,8 @@ const imgs = document.querySelectorAll('#img')
 const blurredDiv = document.querySelectorAll('.blurred__img')
 const productBtns = document.querySelectorAll('#product-btn')
 const closeProductModalBtn = document.getElementById('productmodal-close')
+const closeCheckoutModalBtn = document.getElementById('checkoutmodal-close')
+const checkoutBtn = document.getElementById('checkoutBtn')
 const cartBtn = document.getElementById('cart-btn')
 const cartBtn2 = document.getElementById('cart-btn2')
 const cartContainer = document.querySelector('.cart__container')
@@ -52,5 +54,13 @@ cartBtn2.onclick = ()=>{
 cartClose.onclick = ()=>{
     cartContainer.classList.remove('show')
 }
+
+checkoutBtn.addEventListener('click',function(){
+    let modal = new bootstrap.Modal(document.getElementById('checkout-modal',{}))
+    modal.show()
+    closeCheckoutModalBtn.onclick = ()=>{
+    modal.hide()
+    }
+})
 
 

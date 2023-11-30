@@ -2,6 +2,9 @@ import Product from '../models/products'
 import trycatch from '../utilities/trycatch'
 import { CartAttribute, ProductAttribute } from '../types/types'
 import carttotal from '../helpers/carttotal'
+import Order from '../models/orders'
+import OrderItem from '../models/order-items'
+import Payment from '../models/payment'
 
 export default {
   getHome:(req:any,res:any,next:any)=>{
@@ -79,5 +82,36 @@ export default {
       res.json({success:true,body:{status:'Response successful',data:{msg:"Fetched successfully",product}}})
     })
     .catch(err=>console.error(err))
-  }  
+  },
+  placeOrder:(req:any,res:any,next:any)=>{
+    console.log(req.body)
+    const {name,email,address,category} = req.body
+    if(req.session.cart.length<1){
+      return res.json({msg:"Invalid response"})
+    }
+    Order.create({
+      fullname:name,
+      email:email,
+      address:address,
+      payment:category,
+      total:carttotal(req.session.cart),
+      orderNo:Math.floor((Math.random()*900000)+100000)
+    })
+    .then(order=>{
+      req.session.cart.map(c=>{
+        c.orderId = order.id
+      })
+      return OrderItem.bulkCreate(req.session.cart)
+    })
+    .then(orderItems=>{
+      req.session.cart = []
+    return Payment.findAll({where:{category:category}})
+    })
+    .then(payments=>{
+      res.render('./pages/payment',{
+        payments,cart:req.session.cart
+      })
+    }).catch(err=>console.log(err))
+  }
+
 }

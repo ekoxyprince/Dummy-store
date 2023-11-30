@@ -18,5 +18,11 @@ router
     controller.addProduct)
 .delete([auth,admin],controller.deleteProduct)
 
+router
+.route('/payments')
+.get(controller.getPayment)
+.post(controller.addPayment)
+.delete(controller.removePayment)
+
 
 export default router

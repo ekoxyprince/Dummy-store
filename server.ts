@@ -7,11 +7,16 @@ import { sequelize,connectToDb } from './utilities/database'
 import User from './models/users'
 import Product from './models/products';
 import ProductDetail from './models/product-details';
+import Payment from './models/payment';
+import Order from './models/orders';
+import OrderItem from './models/order-items';
 
 Product.belongsTo(User)
 User.hasMany(Product)
 Product.hasMany(ProductDetail)
 ProductDetail.belongsTo(Product)
+OrderItem.belongsTo(Order)
+Order.hasMany(OrderItem)
 
 connectToDb()
 .then(connected=>{

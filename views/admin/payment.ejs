@@ -1,0 +1,101 @@
+<%-include('../partials/adminhead.ejs')%>
+<script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+  <!-- Recent Sales Start -->
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">All Products</h6>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                Add Payment
+            </button>
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Issuer</th>
+                        <th scope="col">Del</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% payment.forEach(p => { %>
+                     
+                        <tr>
+                            <td><input class="form-check-input" type="checkbox"></td>
+                            <td><%= new Date(p.createdAt).toDateString() %></td>
+                            <td><%= p.name %></td>
+                            <td><%= p.category %></td>
+                            <td><%= p.firstDetail%></td>
+                            <td><%= p.secondDetail%></td>
+                            <td><%= p.thirdDetail%></td>
+                            <td>
+                              <form action='/admin/payments?_method=DELETE' method="POST">
+                                <input type="text" name="id" value="<%= p.id %>" hidden>
+                                <button type="submit" class="btn btn-sm btn-close"></button>
+                              </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Recent Sales End -->
+
+
+<!--Modal starts-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Create New Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="" id="paymentForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name" class="form-label">Name</label>
+            <input class="form-control" type="text" id="name" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="category" class="form-label">Category</label>
+            <select name="category" class="form-control" id="category" required>
+<option value="crypto">Crypto</option>
+<option value="paypal">Paypal</option>
+<option value="zelle">Zelle</option>
+<option value="apple_pay">Apple Pay</option>
+<option value="cash_app">Cash App</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="price" class="form-label">Tag/Address/Number</label>
+            <input type="text" name="first" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="price" class="form-label">Holder/Name/User</label>
+            <input type="text" name="second" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="price" class="form-label">Issuer/Bank/Platform</label>
+            <input type="text" name="third" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+
+<%-include('../partials/adminfoot.ejs')%>
