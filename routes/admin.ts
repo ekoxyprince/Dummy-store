@@ -20,9 +20,19 @@ router
 
 router
 .route('/payments')
-.get(controller.getPayment)
-.post(controller.addPayment)
-.delete(controller.removePayment)
+.get([auth,admin],controller.getPayment)
+.post([auth,admin],controller.addPayment)
+.delete([auth,admin],controller.removePayment)
+
+router
+.route('/orders')
+.get([auth,admin],controller.getOrders)
+.patch([auth,admin],controller.updateOrder)
+.delete([auth,admin],controller.removeOrder)
+
+router
+.route('/order_details/:id')
+.get([auth,admin],controller.gerOrderDetails)
 
 
 export default router

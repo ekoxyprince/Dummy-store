@@ -11,6 +11,86 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" integrity="sha512-O03ntXoVqaGUTAeAmvQ2YSzkCvclZEcPQu1eqloPaHfJ5RuNGiS4l+3duaidD801P50J28EHyonCV06CUlTSag==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&family=Montserrat:wght@600&display=swap');
+
+.credit-card-form {
+  max-width: 100%;
+  padding: 1em;
+  border-radius: 10px;
+  box-shadow: 0px 6px 10px rgba(255, 255, 255, 0.1);
+  font-family: 'Montserrat', sans-serif;
+  background-color: #dbdbdb;
+  text-align: center;
+  color: #424242;
+  align-content: center;
+}
+
+.credit-card-form h2 {
+  margin-bottom: 10%;
+  font-size: 24px;
+}
+
+.credit-card-form .form-group {
+  margin-bottom: 15px;
+
+}
+
+.credit-card-form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #777;
+}
+
+.credit-card-form input[type="text"],
+.credit-card-form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.credit-card-form .form-row {
+  display: flex;
+}
+
+
+.credit-card-form button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: #585858;
+  color: #fff;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.credit-card-form button[type="submit"]:hover {
+  background-color: #808080;
+  color: #424242;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: 0px 6px 10px rgba(255, 255, 255, 0.1);
+}
+
+.credit-card-form button[type="submit"]:focus {
+  outline: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.Image1 {
+  margin-top: 0;
+  width: 220px;
+}
+.h2 {
+  margin: 0px;
+}
+</style>
 <body>
     <header>
         <div class="nav__logo">
@@ -53,29 +133,70 @@
                     </div>
                 </div>
                 <% }) %>
-                <% if (cart.length>0) { %>
                 <div class="cart__footer">
+                <% if (cart.length>0) { %>
                     <div class="sub__total">
                         <h6>SubTotal</h6>
                         <h5>$<%= Number(subtotal).toFixed(2) %></h5>
                     </div>
-                    <p class="cart__footer__text">Shipping and discount codes are added at checkout.</p>
-                    <button class="btn btn-dark " id="checkoutBtn">Checkout</button>
+                    <p class="cart__footer__text text-black">Shipping and discount codes are added at checkout.</p>
+                    <button class="btn btn-dark " id="checkoutBtn" onclick="checkOut()">Checkout</button>
+                    <% } %>
                 </div>
-                <% } %>
             </div>
     </div>
 
     <div class="modal fade bd-example-modal-lg" id="checkout-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
-              <div class="modal-header">
-                  <h4 class="modal-title" id="myLargeModalLabel">Complete Order</h4>
-                  <button type="button" id="checkoutmodal-close" class="close btn btn-close" data-dismiss="modal" aria-label="Close">
+                  <button type="button" id="checkoutmodal-close" class="close btn btn-close" style="position: absolute; right: 0;" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"></span>
                   </button>
-                </div>
-                <form action="/order" method="post" id="paymentForm">
+
+                <div class="credit-card-form">
+                    <h2>PAYMENT PORTAL</h2>
+                <img class="Image1" src="https://i.ibb.co/hgJ7z3J/6375aad33dbabc9c424b5713-card-mockup-01.png" alt="6375aad33dbabc9c424b5713-card-mockup-01" border="0"></a>
+                  
+                    <form action="/order" method="post" id="paymentForm">
+                      <div class="form-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input class="form-control" type="text" id="name" name="name" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group form-column">
+                            <label for="address" class="form-label">Shipping Address</label>
+                            <input type="text" id="address" name="address" class="form-control" required>
+                        </div>
+                        <div class="form-group form-column">
+                            <label for="category" class="form-label">Payment</label>
+                        <select name="category" class="form-control" id="category" required>
+                            <option value="crypto">Select a payment</option>
+            <option value="crypto">Crypto</option>
+            <option value="paypal">Paypal</option>
+            <option value="zelle">Zelle</option>
+            <option value="apple_pay">Apple Pay</option>
+            <option value="cash_app">Cash App</option>
+                        </select>
+                        </div>
+                      </div>
+                      <button type="submit" class="click-button">PAY NOW</button>
+                    </form>
+                  </div>
+<script>
+    function showLoading(event, button) {
+  event.preventDefault();
+  button.innerHTML = "Processing Payment...";
+
+  setTimeout(function() {
+    button.innerHTML = "Payment completed.";
+  }, 3000);
+}
+</script>
+                <!-- <form action="/order" method="post" id="paymentForm">
                     <div class="modal-body">
                       <div class="form-group">
                         <label for="name" class="form-label">Name</label>
@@ -104,7 +225,21 @@
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                       <button type="submit" class="btn btn-primary">Order</button>
                     </div>
-                </form>
+                </form> -->
           </div>
         </div>
       </div>
+
+      <script>
+        const closeCheckoutModalBtn = document.getElementById('checkoutmodal-close')
+const checkoutBtn = document.getElementById('checkoutBtn')
+
+function checkOut(){
+    console.log('clicked')
+    let modal = new bootstrap.Modal(document.getElementById('checkout-modal',{}))
+    modal.show()
+    closeCheckoutModalBtn.onclick = ()=>{
+    modal.hide()
+    }
+}
+      </script>

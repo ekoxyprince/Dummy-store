@@ -9,6 +9,7 @@ export default class Order extends Model{
     declare address : string;
     declare total : number;
     declare payment : string;
+    declare status :string
 }
 
 Order.init({
@@ -36,6 +37,14 @@ Order.init({
   },
   payment:{
     type:DataTypes.STRING,
+    allowNull:false
+  },
+  status:{
+    type:DataTypes.STRING,
+    allowNull:false
+  },
+  total:{
+    type:DataTypes.DECIMAL,
     allowNull:false
   }
 },{

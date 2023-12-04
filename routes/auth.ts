@@ -6,4 +6,7 @@ import validate from '../middlewares/validation';
 router
 .route('/signin')
 .post([validate.email,validate.password],controller.signin)
+router
+.route('/logout')
+.get(controller.signout)
 export default router

@@ -32,7 +32,7 @@
     </div>
     <hr>
     <div class="footer__text">
-        <a href="">sean@radbmxbuilds.com</a>
+        <a href="">sean@officialporkchopbmx.com</a>
         <p>© 2023 RAD BMX BUILDS</p>
     </div>
 </footer>
@@ -119,6 +119,7 @@
         <script>
             function addToCart(btn){
                const id = btn.getAttribute('id')
+               console.log($('.cart__footer'))
                $.ajax({
                    method:'POST',
                    data:JSON.stringify({prodId:id}),
@@ -159,6 +160,7 @@
                        }else if(data.success){
                            $('.cart__container').addClass('show')
                            $('.cart__content').load(' .cart__content')
+                           $('.cart__footer').load(' .cart__footer')
                        }
                    }
                })

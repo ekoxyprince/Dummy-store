@@ -1,0 +1,539 @@
+<%- include('../partials/adminhead.ejs') %>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
+
+::-webkit-scrollbar-thumb {
+  background-color: #233a95 !important;
+  width: 10px;
+  height: 20px;
+  border-radius: 10px;
+}
+::-webkit-scrollbar {
+  width: 13px;
+  height: 10px;
+  background-color: rgb(233, 233, 233);
+}
+a{
+  padding: unset;
+  margin: unset;
+  text-decoration: unset !important;
+}
+body{
+  scroll-behavior: smooth;
+}
+h1,h2,h3,h4,h5,h6{
+  font-size: initial !important;
+  font-weight: bold !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+main {
+position: relative;
+left: 0;
+width: 100% !important;
+}
+
+header {
+  width: 100% !important;
+  height: 80px !important;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 200;
+}
+
+.icon__menu {
+  width: 50px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateX(10px);
+}
+.log{
+  color: white !important;
+}
+.icon__menu i {
+  font-size: 20px !important;
+  cursor: pointer;
+  position: absolute;
+}
+
+.menu__side {
+  width: 80px;
+  height: 100%;
+  background: #233a95;
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: white;
+  font-size: 18px !important;
+  z-index: 300;
+  overflow: hidden;
+  overflow-y: scroll;
+  border-right: 20px solid #233a95;
+  transition: all 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+/*Ocultar scroll para chrome, safari y opera*/
+.menu__side::-webkit-scrollbar {
+  display: none !important;
+}
+
+/*Ocultar scroll para IE, Edge y Firefox*/
+.menu__side {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.name__page {
+  padding: 20px 30px !important;
+  display: flex;
+  align-items: center;
+  margin-top: 10px !important;
+}
+
+.name__page img {
+  width: 35px;
+  margin-right: 20px !important;
+}
+
+.options__menu {
+  padding: 20px 30px !important;
+  position: absolute;
+  top: 80px !important;
+}
+
+.options__menu a {
+  color: #ffffffb2;
+  cursor: default;
+  display: block;
+  position: relative;
+  transition: color 300ms;
+}
+
+.options__menu a:hover {
+  color: white;
+}
+
+.options__menu .option {
+  padding: 20px 0px !important;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.options__menu .option i {
+  width: 20px;
+  margin-right: 20px !important;
+  cursor: pointer;
+  font-size: 22px !important;
+}
+
+.options__menu .option h4 {
+  font-weight: 300 !important;
+  cursor: pointer;
+}
+.products-hold{
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.products-hold a h4{
+  font-weight: normal !important;
+  text-wrap: nowrap;
+}
+.options__menu .ops{
+  padding: 10px 0px !important;
+}
+
+.links.selected {
+  color: #fff;
+}
+
+.selected:before {
+  content: "";
+  width: 3px;
+  height: 80%;
+  background: white;
+  position: absolute;
+  top: 10%;
+  left: -30px;
+}
+
+.body_move {
+  margin-left: 250px !important;
+}
+main{
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.menu__side_move {
+  width: 250px;
+}
+
+.dashboard-home {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  height: auto;
+  flex-wrap: wrap;
+  margin-bottom: 30px !important;
+}
+.dashboard-home .wallet {
+  /* width: 30%; */
+  height: fit-content;
+  background-color: #e6e9f6;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 30px 10px !important;
+  flex-wrap: wrap;
+}
+.dashboard-home .wallet .wall-top{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.dashboard-home .wallet .wall-top i{
+    font-size: 25px !important;
+    margin-top: -10px !important;
+    width: 40px;
+    height: 40px;
+    background-color: #233a959d;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    /* color: #233a95; */
+}
+.dashboard-home .wallet:last-child .wall-top i{
+  font-size: 20px !important;
+}
+.table > :not(caption) > * > *{
+  background-color: unset  !important;
+  border-bottom-width: 0px !important;
+}
+ .head{
+  width: 100%;
+  background: #233a95bd !important;
+
+}
+.table tr{
+  border-bottom: 1px solid #233a9562;
+}
+.head th{
+  color: white !important;
+  padding: 18px 25px !important;
+  font-family: Poppins, sans-serif, monospace;
+  letter-spacing: 0.5px !important;
+  font-size: 16px;
+}
+.table td{
+  padding: 20px 25px !important;
+  font-family: Poppins, sans-serif, monospace;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.table td .trash{
+  font-size: 20px;
+  color: red;
+}
+section h1{
+  margin-bottom: 10px !important;
+}
+.orders, .settings{
+  margin-top: 60px !important;
+}
+.orders > h1{
+  margin-bottom: 10px !important;
+  font-size: 30px !important;
+  font-weight: bold !important;
+  font-family: Poppins, sans-serif, monospace;
+}
+.settings > h1{
+  margin-bottom: 10px !important;
+  font-size: 30px !important;
+  font-weight: bold !important;
+  font-family: Poppins, sans-serif, monospace;
+}
+.orders .table .img-hold{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 15px !important;
+  width: fit-content;
+  align-items: flex-end;
+}
+.orders .table td{
+  color: #233a95 !important;
+}
+.orders .table td img{
+  width: 18px;
+}
+.orders .table .product-name p{
+ margin-bottom: 0px !important;
+}
+.orders .table .product-name .quantity{
+  color: black;
+}
+.pending{
+  padding: 10px !important;
+  background-color: rgba(255, 0, 0, 0.171);
+  width: fit-content;
+  margin-bottom: 0px !important;
+  margin: 0 auto !important;
+  border-radius: 7px;
+}
+.delivered{
+  padding: 10px !important;
+  background-color: #198754;
+  color: white !important;
+  width: fit-content;
+  margin-bottom: 0px !important;
+  margin: 0 auto !important;
+  border-radius: 7px;
+}
+ 
+.orders .table .total p{
+  color: #233a95;
+  font-weight: bold !important;
+  margin-bottom: 0px !important;
+  font-size: 16px;
+}
+/* .stat{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+.dashboard-home .wallet .dos{
+    width: 40px;
+    height: 40px;
+    background-color: #233a959d;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+.dashboard-home .wallet h1{
+    font-size: 25px !important;
+    font-family: Poppins, sans-serif, monospace;
+}
+.dashboard-home .wallet .wall-bottom h1, .dashboard-home .wallet .wall-bottom h1 span{
+    font-size: 30px !important;
+    font-family: Poppins, sans-serif, monospace;
+    color: #233a95;
+}
+.users{
+    padding: 30px 0px !important;
+    margin-top: 40px !important;
+}
+.users h1{
+    font-size: 30px !important;
+    font-family: Poppins, sans-serif, monospace;
+}
+.users .table{
+    /* background-color: red; */
+    width: 100%;
+    border: none !important;
+}
+.settings{
+  margin-bottom: 90px;
+}
+.settings .set{
+  min-width: 400px;
+  width: fit-content;
+  padding: 30px 10px;
+}
+.settings .set .btn22{
+  background-color: #233a95 !important;
+  border: none !important;
+}
+.settings .set i{
+  background-color: #233a95;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 16px !important;
+  margin-bottom: 0px !important;
+  color: white;
+}
+.settings .set .modal-body{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.settings .set .modal-body input{
+  width: 70% !important;
+  padding: 9px 20px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  border: 2px solid #233a95;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+
+@media screen and (max-width: 760px) {
+  .body_move {
+    margin-left: 0px !important;
+  }
+  .dashboard-home{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+  }
+  .dashboard-home .wallet{
+    width: unset;
+  }
+  .menu__side_move {
+    width: 80px;
+    left: -80px;
+  }
+}
+
+@media screen and (max-width: 480px){
+  .dashboard-home{
+    grid-template-columns: 1fr;
+  }
+  .settings .set{
+    width: 90%;
+    min-width: unset !important;
+  }
+}
+
+</style>
+<main style="width: 100%;">
+    <h1 class="fs-2 mb-4">Orders Details</h1>
+    <!-- content -->
+    <div class="content mb-5">
+      <div class="mb-4">
+        <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="/admin/orders">
+                <i class="bi bi-globe2 small me-2"></i> Orders
+              </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Order Detail
+            </li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-8 col-md-12">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div
+                class="mb-5 d-flex align-items-center justify-content-between"
+              >
+                <span>Order No : <a href="#">#<%= order.orderNo %></a></span>
+                <span class="badge <%= order.status ==="processed"?"bg-success":"bg-warning" %> text-capitalize"><%= order.status %></span>
+              </div>
+              <div class="row mb-5 g-4">
+                <div class="col-md-3 col-sm-6">
+                  <p class="fw-bold">Order Created at</p>
+                  <%= new Date(order.createdAt).toLocaleDateString() %> at <%= new Date(order.createdAt).toLocaleTimeString() %>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                  <p class="fw-bold">Name</p>
+                  <%= order.fullname %>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                  <p class="fw-bold">Email</p>
+                  <%= order.email%>
+                </div>
+              </div>
+              <div class="row g-4">
+                <div class="col-md-6 col-sm-12">
+                  <div class="card">
+                    <div class="card-body d-flex flex-column gap-3">
+                      <div class="d-flex justify-content-between">
+                        <h5 class="mb-0">Delivery Location</h5>
+                      </div>
+                      <div><%= order.address %></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card widget">
+            <h5 class="card-header">Order Items</h5>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-custom mb-0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Photo</th>
+                      <th>Name</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% order.OrderItems.forEach((o,i) => { %>
+                        <tr>
+                          <td><%= i+1 %></td>
+                          <td class="img-holds">
+                            <img src="<%= o.image %>" width="30px" />
+                          </td>
+                          <td><%= o.name  %></td>
+                          <td><%=o.quantity  %></td>
+                          <td><%= o.price %></td>
+                          <td><%= Number(o.price) %></td>
+                        </tr>
+                     
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12 mt-4 mt-lg-0">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h6 class="card-title mb-4">Price</h6>
+              <div class="row justify-content-center mb-3">
+                <div class="col-4 text-end">Sub Total :</div>
+                <div class="col-4">$<%= order.total%></div>
+              </div>
+              <div class="row justify-content-center mb-3">
+                <div class="col-4 text-end">Shipping :</div>
+                <div class="col-4"><span>00</span> USD</div>
+              </div>
+              <div class="row justify-content-center">
+                <div class="col-4 text-end">
+                  <strong>Total :</strong>
+                </div>
+                <div class="col-4">
+                  <strong>$<%= order.total %></strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <%-include('../partials/adminfoot.ejs')%>

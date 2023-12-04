@@ -1,14 +1,73 @@
 <%- include('../partials/pagehead.ejs') %>
+<style>
+    * {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+.content {
+  font-family: 'Helvetica Neue';
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+}
+
+.title { 
+  font-weight: bold;
+  color: #000000;
+}
+
+.symbol {
+  -webkit-text-stroke: 13px #212121;
+  font-size: 150px;
+  color: #066627;
+}
+
+.text { 
+  margin-top: 15px;
+  font-size: 25px;
+  color: #e7e7e7;
+  text-align: center; 
+  font-family: 'avenir';
+  font-weight: lighter;
+}
+</style>
 <section class="build__section">
     <div class="container py_l">
-        <div class="section__title">
-            <h2 class="text-success">Order Has been Placed</h2>
-            <p>Send Proof of payment to <a href="mailto:contact@officialporkbmx.com">contact@officialporkbmx.com</a></p>
-        </div>
+        <div class='content'>
+            <div class='fa fa-check-circle symbol'></div>
+            <div class='title'>Thank you for your order!</div>
+            <h5>Kindly send proof of payment to <i>support@officialporkchopbmx.com</i></h5>
+            <div class='text'></div>
+          </div>
         <div class="row">
-           
+            <% payments.forEach(p => { %>
+                <div class="col-md-6 col-sm-12">
+                    <div class="card h-75">
+                        <div class="card-body text-dark">
+                            <p class="text-black-50"><b>Payment Method:</b>      <%= p.name %></p>
+                            <p class="text-black-50"><b>Administrator:</b>       <%= p.secondDetail %></p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="form-group">
+                                <label for="" class="form-label">Address/Tag :</label><br>
+                                <input type="text" value="<%= p.firstDetail %>" onclick="copyToClipboard(this)" readonly>
+                                <sub>click address to copy</sub>
+                            </div>
+                        </div>
+                       </div>
+                </div>
+            <% }) %>
 
         </div>
     </div>
 </section>
+<script>
+    function copyToClipboard(input){
+        navigator.clipboard.writeText(input.value)
+        .then(copied=>{
+            alert('copied to clipBoard')
+        })
+    }
+</script>
 <%- include('../partials/pagefoot.ejs') %>

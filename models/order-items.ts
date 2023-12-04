@@ -6,6 +6,7 @@ export default class OrderItem extends Model{
    declare name:string;
    declare price:number;
    declare quantity:number;
+   declare image : string;
 }
 
 OrderItem.init({
@@ -27,6 +28,10 @@ OrderItem.init({
         type:DataTypes.DECIMAL,
         allowNull:false
     },
+    image:{
+        type:DataTypes.STRING,
+        allowNull:false
+    }
 },{
     tableName:'order_items',
     sequelize

@@ -1,0 +1,60 @@
+<%-include('../partials/adminhead.ejs')%>
+  <!-- Recent Sales Start -->
+  <div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h6 class="mb-0">All Orders</h6>
+            
+        </div>
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th scope="col"><input class="form-check-input" type="checkbox"></th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Invoice</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Details</th>
+                        <th scope="col">Del</th>
+                    </tr>
+                </thead>
+                <tbody>
+ <% orders.forEach(o => { %>
+    <tr>
+        <td><input class="form-check-input" type="checkbox"></td>
+        <td><%= new Date(o.createdAt).toDateString() %></td>
+        <td>INV-<%=o.orderNo  %></td>
+        <td><%= o.fullname %></td>
+        <td><%= o.email %></td>
+        <td>$<%= o.total %></td>
+        <td><%= o.payment %></td>
+        <td>
+            <% if (o.status !== "pending") { %>             
+                <%= o.status %>
+            <% }else{ %>
+                <form action='/admin/orders?_method=PATCH' method="POST">
+                    <input type="text" name="id" value="<%= o.id %>" hidden>
+                    <button type="submit" class="btn btn-sm btn-success">process</button>
+                  </form>
+                <% } %>
+        </td>
+        <td><a class="btn btn-sm btn-primary" href="order_details/<%= o.id %>">Details</a></td>
+        <td>
+            <form action='/admin/orders?_method=DELETE' method="POST">
+                <input type="text" name="id" value="<%= o.id %>" hidden>
+                <button type="submit" class="btn btn-sm btn-close"></button>
+              </form>
+        </td>
+    </tr>
+ <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Recent Sales End -->
+<%-include('../partials/adminfoot.ejs')%>

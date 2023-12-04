@@ -1,16 +1,31 @@
 import Product from "../models/products"
 import trycatch from "../utilities/trycatch"
 import { ProductAttribute,ProductRequestBody } from "../types/types"
+import { sequelize } from "../utilities/database"
 import { validationResult } from "express-validator"
 import Payment from "../models/payment"
 import fs from 'fs'
+import Order from "../models/orders"
+import OrderItem from "../models/order-items"
+import config from "../config"
+import mail from "../helpers/mail"
 
 export default {
-    dashboard:(req:any,res:any,next:any)=>{
+    dashboard:trycatch(async(req:any,res:any,next:any)=>{
+        const order:Array<Order> = await Order.findAll({limit:5,order:[['id','DESC']]})
         res.render('./admin/dashboard',{
-            path:'/dashboard'
+            path:'/dashboard',
+            orders:order,
+            totalProduct:(await Product.findAll()).length,
+            totalOrders:(await Order.findAll()).length,
+            revenue:(await Order.findAll({
+                where:{status:'processed'},
+                attributes:[
+                    [sequelize.fn('SUM',sequelize.col('total')),'totalSum']
+                ]
+            }))[0]['dataValues']['totalSum']
         })
-    },
+    }),
     product:trycatch(async(req:any,res:any,next:any)=>{
         let products:Array<Product> = await Product.findAll()
         res.render('./admin/products',{
@@ -73,5 +88,58 @@ export default {
             payment:await Payment.findAll(),
             path:'/payments'
         })
-    })
+    }),
+    getOrders:trycatch(async(req:any,res:any,next:any)=>{
+        res.render('./admin/orders',{
+            orders:await Order.findAll(),
+            path:'/orders'
+        })
+    }),
+    gerOrderDetails:trycatch(async(req:any,res:any,next:any)=>{
+        const {id} = req.params
+        const order = await Order.findOne({include:OrderItem,where:{id:id}})
+        res.render('./admin/orderdetails',{
+            order:order,
+            path:'/order_details'
+        })
+    }),
+    updateOrder:(req:any,res:any,next:any)=>{
+        const {id} = req.body
+        Order.findByPk(id)
+        .then((order:Order|null)=>{
+            order!.status = 'processed'
+            return order?.save()
+        })
+        .then(order=>{
+            mail(order!.email,`We have processed your order. The details for your order are below:<br>
+            Order Number: <b>${order?.orderNo}</b> <br>
+            fullname: <b>${order?.fullname}</b> <br>
+            email: <b>${order?.email}</b> <br>
+            delivery address: <b>${order?.address}</b> <br>
+            Status: <b style="color:green;">${order?.status}</b> <br>
+            .
+            `,order!.fullname,'Order Processed')
+            mail(config.email!,`You have processed this Order. The details for your order are below:<br>
+            Order Number: <b>${order?.orderNo}</b> <br>
+            fullname: <b>${order?.fullname}</b> <br>
+            email: <b>$${order?.email}</b> <br>
+            delivery address: <b>${order?.address}</b> <br>
+            Status: <b style="color:green;">${order?.status}</b> <br>
+            `,'Francis Admin','Order Processed')
+            res.redirect('/admin/orders')
+        })
+        .catch(err=>console.log(err))
+
+    },
+    removeOrder:(req:any,res:any,next:any)=>{
+        const {id} = req.body
+        Order.findByPk(id)
+        .then(order=>{
+            return order?.destroy()
+        })
+        .then(destroyed=>{
+            res.redirect('/admin/orders')
+        })
+        .catch(err=>console.log(err))
+    }
 }
